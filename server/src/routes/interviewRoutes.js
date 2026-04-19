@@ -10,14 +10,18 @@ const {
 } = require("../controllers/interviewController");
 
 const { protect } = require("../middleware/authMiddleware");
+const { validateInterview } = require("../middleware/validationMiddleware");
+const { checkOwnership } = require("../middleware/ownershipMiddleware");
+
+const Interview = require("../models/Interview");
 
 router.route("/")
   .get(protect, getInterviews)
-  .post(protect, createInterview);
+  .post(protect, validateInterview, createInterview);
 
 router.route("/:id")
-  .get(protect, getInterviewById)
-  .put(protect, updateInterview)
-  .delete(protect, deleteInterview);
+  .get(protect, checkOwnership(Interview), getInterviewById)
+  .put(protect, checkOwnership(Interview), validateInterview, updateInterview)
+  .delete(protect, checkOwnership(Interview), deleteInterview);
 
 module.exports = router;

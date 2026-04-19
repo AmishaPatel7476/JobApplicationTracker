@@ -119,14 +119,17 @@ function Companies() {
     setErrors({});
     setOpened(true);
   };
-
+  
+  const isValidWebsite = (website) => {
+    return /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/.*)?$/i.test(website);
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
 
     const newErrors = {};
 
-    // ✅ VALIDATION
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
     }
@@ -139,18 +142,18 @@ function Companies() {
       newErrors.location = "Location is required";
     }
 
+    if (formData.website && !isValidWebsite(formData.website.trim())) {
+      newErrors.website = "Enter a valid website URL";
+    }
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    // ✅ FIX WEBSITE
     const payload = {
       ...formData,
-      website:
-        formData.website && !formData.website.startsWith("http")
-          ? "https://" + formData.website
-          : formData.website
+      website: formData.website.trim()
     };
 
     setLoading(true);
@@ -322,12 +325,12 @@ function Companies() {
                       <Text
                         size="sm"
                         component="a"
-                        href={c.website}
+                        href={c.website.startsWith("http://") || c.website.startsWith("https://") ? c.website : `https://${c.website}`}
                         target="_blank"
                         c="blue"
                         style={{ wordBreak: "break-all" }}
                       >
-                        {new URL(c.website).hostname}
+                        {c.website}
                       </Text>
                     </Group>
                   )}
@@ -407,9 +410,10 @@ function Companies() {
             <TextInput
               label="Website"
               name="website"
-              placeholder="Enter website"
+              placeholder="https://example.com"
               value={formData.website}
               onChange={handleChange}
+              error={errors.website}
             />
 
             <Textarea

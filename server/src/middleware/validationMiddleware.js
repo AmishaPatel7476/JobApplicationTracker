@@ -1,8 +1,6 @@
-// EMAIL REGEX
 const isValidEmail = (email) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-// ================= REGISTER =================
 const validateRegister = (req, res, next) => {
   const { name, email, password } = req.body;
 
@@ -24,7 +22,6 @@ const validateRegister = (req, res, next) => {
   next();
 };
 
-// ================= APPLICATION =================
 const validateApplication = (req, res, next) => {
   const { roleTitle, applicationDate, company, salaryExpectation } = req.body;
 
@@ -41,7 +38,40 @@ const validateApplication = (req, res, next) => {
   next();
 };
 
+const isValidWebsite = (website) =>
+  /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/.*)?$/i.test(website);
+
+const validateCompany = (req, res, next) => {
+  const { name, industry, location, website } = req.body;
+
+  if (!name || !industry || !location) {
+    res.status(400);
+    throw new Error("Name, industry and location are required");
+  }
+
+  if (website && !isValidWebsite(website)) {
+    res.status(400);
+    throw new Error("Invalid website format");
+  }
+
+  next();
+};
+
+const validateInterview = (req, res, next) => {
+  const { application, interviewDate, interviewType } = req.body;
+
+  if (!application || !interviewDate || !interviewType) {
+    res.status(400);
+    throw new Error("Application, interview date and interview type are required");
+  }
+
+  next();
+};
+
+
 module.exports = {
   validateRegister,
-  validateApplication
+  validateApplication,
+  validateCompany,
+  validateInterview
 };

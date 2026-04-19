@@ -10,21 +10,34 @@ const {
 } = require("../controllers/companyController");
 
 const { protect } = require("../middleware/authMiddleware");
+const { validateCompany, validateApplication } = require("../middleware/validationMiddleware");
+const { checkOwnership } = require("../middleware/ownershipMiddleware");
+
 const Company = require("../models/Company");
 const Application = require("../models/Application");
 
 router.route("/")
   .get(protect, getCompanies)
-  .post(protect, createCompany);
+  .post(protect, validateCompany, createCompany);
 
 router.route("/:id")
-  .get(protect, getCompanyById)
-  .put(protect, updateCompany)
-  .delete(protect, deleteCompany);
+  .get(protect, checkOwnership(Company), getCompanyById)
+  .put(protect, checkOwnership(Company), validateCompany, updateCompany)
+  .delete(protect, checkOwnership(Company), deleteCompany);
 
 // Nested route: get applications for a company
 router.get("/:companyId/applications", protect, async (req, res, next) => {
   try {
+    const company = await Company.findOne({
+      _id: req.params.companyId,
+      user: req.user._id
+    });
+
+    if (!company) {
+      res.status(404);
+      throw new Error("Company not found");
+    }
+
     const applications = await Application.find({
       company: req.params.companyId,
       user: req.user._id
@@ -39,20 +52,6 @@ router.get("/:companyId/applications", protect, async (req, res, next) => {
 // Nested route: create application for a company
 router.post("/:companyId/applications", protect, async (req, res, next) => {
   try {
-    const {
-      roleTitle,
-      status,
-      applicationDate,
-      salaryExpectation,
-      resumeVersion,
-      notes
-    } = req.body;
-
-    if (!roleTitle || !applicationDate) {
-      res.status(400);
-      throw new Error("Role title and application date are required");
-    }
-
     const company = await Company.findOne({
       _id: req.params.companyId,
       user: req.user._id
@@ -63,21 +62,34 @@ router.post("/:companyId/applications", protect, async (req, res, next) => {
       throw new Error("Company not found");
     }
 
-    const application = await Application.create({
-      roleTitle,
-      status,
-      applicationDate,
-      salaryExpectation,
-      resumeVersion,
-      notes,
-      company: req.params.companyId,
-      user: req.user._id
+    req.body.company = req.params.companyId;
+
+    validateApplication(req, res, async () => {
+      const {
+        roleTitle,
+        status,
+        applicationDate,
+        salaryExpectation,
+        resumeVersion,
+        notes
+      } = req.body;
+
+      const application = await Application.create({
+        roleTitle,
+        status,
+        applicationDate,
+        salaryExpectation,
+        resumeVersion,
+        notes,
+        company: req.params.companyId,
+        user: req.user._id
+      });
+
+      const populatedApplication = await Application.findById(application._id)
+        .populate("company", "name industry location");
+
+      res.status(201).json(populatedApplication);
     });
-
-    const populatedApplication = await Application.findById(application._id)
-      .populate("company", "name industry location");
-
-    res.status(201).json(populatedApplication);
   } catch (error) {
     next(error);
   }
