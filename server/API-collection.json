@@ -1,0 +1,425 @@
+{
+  "v": 1,
+  "name": "Job Application Tracker API",
+  "folders": [
+    {
+      "name": "Authentication",
+      "requests": [
+        {
+          "name": "Register User",
+          "method": "POST",
+          "endpoint": "{{baseUrl}}/auth/register",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"name\": \"Amisha\",\n  \"email\": \"amisha@example.com\",\n  \"password\": \"123456\"\n}"
+          }
+        },
+        {
+          "name": "Login User",
+          "method": "POST",
+          "endpoint": "{{baseUrl}}/auth/login",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"email\": \"amisha@example.com\",\n  \"password\": \"123456\"\n}"
+          }
+        },
+        {
+          "name": "Get Current User",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/auth/me",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Companies",
+      "requests": [
+        {
+          "name": "Create Company",
+          "method": "POST",
+          "endpoint": "{{baseUrl}}/companies",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"name\": \"Canva\",\n  \"industry\": \"Design Software\",\n  \"location\": \"Sydney\",\n  \"website\": \"https://www.canva.com\",\n  \"notes\": \"Strong frontend roles\"\n}"
+          }
+        },
+        {
+          "name": "Get All Companies",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/companies",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Search Companies",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/companies?search=FinTech",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Sort Companies Alphabetically",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/companies?sort=alphabetical",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Paginate Companies",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/companies?page=1&limit=2",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Get Company By ID",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/companies/{{companyId}}",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Update Company",
+          "method": "PUT",
+          "endpoint": "{{baseUrl}}/companies/{{companyId}}",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"name\": \"Updated Canva\",\n  \"industry\": \"Software\",\n  \"location\": \"Melbourne\"\n}"
+          }
+        },
+        {
+          "name": "Delete Company",
+          "method": "DELETE",
+          "endpoint": "{{baseUrl}}/companies/{{companyId}}",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Applications",
+      "requests": [
+        {
+          "name": "Create Application",
+          "method": "POST",
+          "endpoint": "{{baseUrl}}/applications",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"roleTitle\": \"Frontend Developer\",\n  \"status\": \"Applied\",\n  \"applicationDate\": \"2026-04-15\",\n  \"salaryExpectation\": 85000,\n  \"resumeVersion\": \"Resume v1\",\n  \"notes\": \"Applied through company website\",\n  \"company\": \"{{companyId}}\"\n}"
+          }
+        },
+        {
+          "name": "Nested Create Application",
+          "method": "POST",
+          "endpoint": "{{baseUrl}}/companies/{{companyId}}/applications",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"roleTitle\": \"Backend Developer\",\n  \"status\": \"Applied\",\n  \"applicationDate\": \"2026-04-20\",\n  \"salaryExpectation\": 90000,\n  \"resumeVersion\": \"Resume v2\",\n  \"notes\": \"Applied through LinkedIn\"\n}"
+          }
+        },
+        {
+          "name": "Get All Applications",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/applications",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Search Applications",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/applications?search=Frontend",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Filter Applications By Status",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/applications?status=Applied",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Sort Applications By Salary",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/applications?sort=salaryHigh",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Paginate Applications",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/applications?page=1&limit=2",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Get Application By ID",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/applications/{{applicationId}}",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Update Application",
+          "method": "PUT",
+          "endpoint": "{{baseUrl}}/applications/{{applicationId}}",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"status\": \"Interview Scheduled\",\n  \"salaryExpectation\": 95000,\n  \"notes\": \"Interview booked for next week\"\n}"
+          }
+        },
+        {
+          "name": "Delete Application",
+          "method": "DELETE",
+          "endpoint": "{{baseUrl}}/applications/{{applicationId}}",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Interviews",
+      "requests": [
+        {
+          "name": "Create Interview",
+          "method": "POST",
+          "endpoint": "{{baseUrl}}/interviews",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"round\": \"Technical\",\n  \"interviewDate\": \"2026-04-20\",\n  \"mode\": \"Online\",\n  \"outcome\": \"Pending\",\n  \"notes\": \"First technical round\",\n  \"application\": \"{{applicationId}}\"\n}"
+          }
+        },
+        {
+          "name": "Get All Interviews",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/interviews",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Search Interviews",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/interviews?search=Technical",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Nested Get Interviews By Application",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/applications/{{applicationId}}/interviews",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Get Interview By ID",
+          "method": "GET",
+          "endpoint": "{{baseUrl}}/interviews/{{interviewId}}",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        },
+        {
+          "name": "Update Interview",
+          "method": "PUT",
+          "endpoint": "{{baseUrl}}/interviews/{{interviewId}}",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"outcome\": \"Passed\",\n  \"notes\": \"Successfully cleared technical round\"\n}"
+          }
+        },
+        {
+          "name": "Delete Interview",
+          "method": "DELETE",
+          "endpoint": "{{baseUrl}}/interviews/{{interviewId}}",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "environments": [
+    {
+      "name": "Local",
+      "variables": [
+        {
+          "key": "baseUrl",
+          "value": "http://localhost:5000/api"
+        },
+        {
+          "key": "token",
+          "value": "PASTE_YOUR_TOKEN_HERE"
+        },
+        {
+          "key": "companyId",
+          "value": "PASTE_COMPANY_ID_HERE"
+        },
+        {
+          "key": "applicationId",
+          "value": "PASTE_APPLICATION_ID_HERE"
+        },
+        {
+          "key": "interviewId",
+          "value": "PASTE_INTERVIEW_ID_HERE"
+        }
+      ]
+    }
+  ]
+}
