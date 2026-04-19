@@ -10,7 +10,7 @@ const getInterviews = async (req, res, next) => {
     const search = req.query.search || "";
     const sort = req.query.sort || "newest";
 
-    let sortOption = { createdAt: -1 };
+    let sortOption = { interviewDate: -1 };
 
     if (sort === "oldest") {
       sortOption = { interviewDate: 1 };

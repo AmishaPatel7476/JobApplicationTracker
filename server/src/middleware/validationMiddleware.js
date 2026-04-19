@@ -25,12 +25,14 @@ const validateRegister = (req, res, next) => {
 const validateApplication = (req, res, next) => {
   const { roleTitle, applicationDate, company, salaryExpectation } = req.body;
 
-  if (!roleTitle || !applicationDate || !company) {
-    res.status(400);
-    throw new Error("Role title, application date and company are required");
+  if (req.method === "POST") {
+    if (!roleTitle || !applicationDate || !company) {
+      res.status(400);
+      throw new Error("Role title, application date and company are required");
+    }
   }
 
-  if (salaryExpectation && Number(salaryExpectation) < 0) {
+  if (salaryExpectation !== undefined && Number(salaryExpectation) < 0) {
     res.status(400);
     throw new Error("Salary cannot be negative");
   }
@@ -39,14 +41,16 @@ const validateApplication = (req, res, next) => {
 };
 
 const isValidWebsite = (website) =>
-  /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/.*)?$/i.test(website);
+  /^https?:\/\/.+/i.test(website);
 
 const validateCompany = (req, res, next) => {
   const { name, industry, location, website } = req.body;
 
-  if (!name || !industry || !location) {
-    res.status(400);
-    throw new Error("Name, industry and location are required");
+  if (req.method === "POST") {
+    if (!name || !industry || !location) {
+      res.status(400);
+      throw new Error("Name, industry and location are required");
+    }
   }
 
   if (website && !isValidWebsite(website)) {
@@ -58,11 +62,13 @@ const validateCompany = (req, res, next) => {
 };
 
 const validateInterview = (req, res, next) => {
-  const { application, interviewDate, interviewType } = req.body;
+  const { application, interviewDate, mode } = req.body;
 
-  if (!application || !interviewDate || !interviewType) {
-    res.status(400);
-    throw new Error("Application, interview date and interview type are required");
+  if (req.method === "POST") {
+    if (!application || !interviewDate || !mode) {
+      res.status(400);
+      throw new Error("Application, interview date and mode are required");
+    }
   }
 
   next();

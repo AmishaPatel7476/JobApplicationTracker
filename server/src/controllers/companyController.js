@@ -25,8 +25,10 @@ const getCompanies = async (req, res, next) => {
 
     if (sort === "oldest") {
       sortOption = { createdAt: 1 };
-    } else if (sort === "alphabetical") {
+    } else if (sort === "name_asc") {
       sortOption = { name: 1 };
+    } else if (sort === "name_desc") {
+      sortOption = { name: -1 };
     }
 
     const total = await Company.countDocuments(query);

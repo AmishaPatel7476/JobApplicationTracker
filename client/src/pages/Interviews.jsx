@@ -91,6 +91,10 @@ function Interviews() {
   }, [search, sortBy, page]);
 
   useEffect(() => {
+    setPage(1);
+  }, [search, sortBy]);
+
+  useEffect(() => {
     fetchApplications();
   }, []);
 
