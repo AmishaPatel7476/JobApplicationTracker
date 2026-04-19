@@ -34,7 +34,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     >
       <Notifications position="top-right" />
 
-      <BrowserRouter>
+      <BrowserRouter basename="/assessment02">
         <AuthProvider>
           <App />
         </AuthProvider>
