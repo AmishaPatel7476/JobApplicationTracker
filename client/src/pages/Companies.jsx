@@ -50,7 +50,7 @@ function Companies() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // ================= FETCH =================
+  // fetch
   const fetchCompanies = async () => {
     try {
       const res = await fetch(
@@ -84,7 +84,7 @@ function Companies() {
     setPage(1);
   }, [search, sortBy]);
 
-  // ================= HANDLERS =================
+  // handlers
 
   const handleChange = (e) => {
     setErrors({});
@@ -236,7 +236,7 @@ function Companies() {
     }
   };
 
-  // ================= UI =================
+  // user interface
 
   return (
     <Stack>
@@ -268,7 +268,7 @@ function Companies() {
         />
       </Group>
 
-      {/* GRID */}
+      {/* Grid */}
       <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }}>
         {companies.length === 0 ? (
           <Text ta="center" c="dimmed">
@@ -297,7 +297,7 @@ function Companies() {
             >
               <Stack gap="sm">
                 
-                {/* HEADER */}
+                {/* Header */}
                 <Group justify="space-between">
                   <Group gap="xs">
                     <IconBuilding size={18} />
@@ -305,7 +305,6 @@ function Companies() {
                   </Group>
                 </Group>
 
-                {/* META INFO */}
                 <Stack gap={4}>
                   <Group gap="xs">
                     <IconBuilding size={14} color="gray" />
@@ -336,14 +335,12 @@ function Companies() {
                   )}
                 </Stack>
 
-                {/* NOTES */}
                 {c.notes && (
                   <Text size="xs" c="dimmed" lineClamp={2}>
                     {c.notes}
                   </Text>
                 )}
 
-                {/* FOOTER ACTIONS */}
                 <Group justify="space-between" mt="md">
                   <Button
                     size="xs"
@@ -372,7 +369,7 @@ function Companies() {
 
       <Pagination value={page} onChange={setPage} total={totalPages} />
 
-      {/* MODAL */}
+      {/* Modal */}
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}

@@ -28,7 +28,7 @@ function Login() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // ✅ Email validator
+  // Email validator
   const isValidEmail = (email) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -46,7 +46,7 @@ function Login() {
 
     const errors = {};
 
-    // ✅ VALIDATION
+    // Basic validation
     if (!formData.email.trim()) {
       errors.email = "Email is required";
     } else if (!isValidEmail(formData.email)) {
@@ -109,7 +109,6 @@ function Login() {
 
   return (
     <Box style={{ display: "flex", minHeight: "100vh" }}>
-      {/* LEFT */}
       <Box
         visibleFrom="md"
         style={{
@@ -129,7 +128,6 @@ function Login() {
         </Stack>
       </Box>
 
-      {/* RIGHT */}
       <Box
         style={{
           flex: 1,

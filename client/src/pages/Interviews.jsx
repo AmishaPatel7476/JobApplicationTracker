@@ -48,7 +48,7 @@ function Interviews() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // ================= FETCH =================
+  // fetch
 
   const fetchInterviews = async () => {
     try {
@@ -98,7 +98,7 @@ function Interviews() {
     fetchApplications();
   }, []);
 
-  // ================= HANDLERS =================
+  // handlers
 
   const handleChange = (e) => {
     setFormError("");
@@ -217,7 +217,7 @@ function Interviews() {
     }
   };
 
-  // ================= UI =================
+  // user interface
 
   return (
     <Stack>
@@ -233,7 +233,7 @@ function Interviews() {
         </Button>
       </Group>
 
-      {/* SEARCH + SORT */}
+      {/* Search + sort*/}
       <Group grow>
         <TextInput
           placeholder="Search..."
@@ -251,7 +251,6 @@ function Interviews() {
         />
       </Group>
 
-      {/* TABLE */}
       <Paper withBorder radius="md">
         <Table.ScrollContainer minWidth={800}>
           <Table highlightOnHover verticalSpacing={isMobile ? "xs" : "sm"}>
@@ -312,7 +311,6 @@ function Interviews() {
 
       <Pagination value={page} onChange={setPage} total={totalPages} />
 
-      {/* MODAL */}
       <Modal opened={opened} onClose={() => setOpened(false)} title="Interview">
         <form onSubmit={handleSubmit}>
           <Stack>

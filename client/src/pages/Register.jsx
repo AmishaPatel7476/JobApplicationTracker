@@ -44,7 +44,7 @@ function Register() {
     e.preventDefault();
     setError("");
 
-    // ✅ VALIDATION
+    // Validation
     if (!formData.name.trim()) {
       setError("Name is required");
       return;
@@ -126,7 +126,6 @@ function Register() {
 
   return (
     <Box style={{ display: "flex", minHeight: "100vh" }}>
-      {/* LEFT */}
       <Box
         visibleFrom="md"
         style={{
@@ -146,7 +145,6 @@ function Register() {
         </Stack>
       </Box>
 
-      {/* RIGHT */}
       <Box
         style={{
           flex: 1,

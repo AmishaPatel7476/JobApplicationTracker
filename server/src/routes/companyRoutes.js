@@ -70,7 +70,6 @@ router.post("/:companyId/applications", protect, async (req, res, next) => {
         status,
         applicationDate,
         salaryExpectation,
-        resumeVersion,
         notes
       } = req.body;
 
@@ -79,7 +78,6 @@ router.post("/:companyId/applications", protect, async (req, res, next) => {
         status,
         applicationDate,
         salaryExpectation,
-        resumeVersion,
         notes,
         company: req.params.companyId,
         user: req.user._id

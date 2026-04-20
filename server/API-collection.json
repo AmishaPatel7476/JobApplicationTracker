@@ -176,7 +176,7 @@
           ],
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"roleTitle\": \"Frontend Developer\",\n  \"status\": \"Applied\",\n  \"applicationDate\": \"2026-04-15\",\n  \"salaryExpectation\": 85000,\n  \"resumeVersion\": \"Resume v1\",\n  \"notes\": \"Applied through company website\",\n  \"company\": \"{{companyId}}\"\n}"
+            "body": "{\n  \"roleTitle\": \"Frontend Developer\",\n  \"status\": \"Applied\",\n  \"applicationDate\": \"2026-04-15\",\n  \"salaryExpectation\": 85000,\n  \"Resume v1\",\n  \"notes\": \"Applied through company website\",\n  \"company\": \"{{companyId}}\"\n}"
           }
         },
         {
@@ -195,7 +195,7 @@
           ],
           "body": {
             "contentType": "application/json",
-            "body": "{\n  \"roleTitle\": \"Backend Developer\",\n  \"status\": \"Applied\",\n  \"applicationDate\": \"2026-04-20\",\n  \"salaryExpectation\": 90000,\n  \"resumeVersion\": \"Resume v2\",\n  \"notes\": \"Applied through LinkedIn\"\n}"
+            "body": "{\n  \"roleTitle\": \"Backend Developer\",\n  \"status\": \"Applied\",\n  \"applicationDate\": \"2026-04-20\",\n  \"salaryExpectation\": 90000,\n  \"Resume v2\",\n  \"notes\": \"Applied through LinkedIn\"\n}"
           }
         },
         {

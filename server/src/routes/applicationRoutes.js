@@ -16,14 +16,14 @@ const { protect } = require("../middleware/authMiddleware");
 const { validateApplication } = require("../middleware/validationMiddleware");
 const { checkOwnership } = require("../middleware/ownershipMiddleware");
 
-// ================= MAIN ROUTES =================
+// main routes
 
 router.route("/")
   .get(protect, getApplications)
-  .post(protect, validateApplication, createApplication); // ✅ validation added
+  .post(protect, validateApplication, createApplication); 
 
 router.route("/:id")
-  .get(protect, checkOwnership(Application), getApplicationById) // ✅ ownership
+  .get(protect, checkOwnership(Application), getApplicationById) 
   .put(
     protect,
     checkOwnership(Application),
@@ -32,12 +32,11 @@ router.route("/:id")
   )
   .delete(protect, checkOwnership(Application), deleteApplication);
 
-// ================= NESTED ROUTE =================
+// nested route for interviews of a specific application
 
 // GET interviews for a specific application
 router.get("/:applicationId/interviews", protect, async (req, res, next) => {
   try {
-    // ✅ check ownership of application
     const application = await Application.findOne({
       _id: req.params.applicationId,
       user: req.user._id

@@ -23,7 +23,6 @@ const getApplications = async (req, res, next) => {
       query.$or = [
         { roleTitle: { $regex: search, $options: "i" } },
         { status: { $regex: search, $options: "i" } },
-        { resumeVersion: { $regex: search, $options: "i" } },
         { notes: { $regex: search, $options: "i" } }
       ];
     }
@@ -110,7 +109,6 @@ const createApplication = async (req, res, next) => {
       status,
       applicationDate,
       salaryExpectation,
-      resumeVersion,
       notes,
       company
     } = req.body;
@@ -135,7 +133,6 @@ const createApplication = async (req, res, next) => {
       status,
       applicationDate,
       salaryExpectation,
-      resumeVersion,
       notes,
       company,
       user: req.user._id
@@ -180,7 +177,6 @@ const updateApplication = async (req, res, next) => {
     application.status = req.body.status ?? application.status;
     application.applicationDate = req.body.applicationDate ?? application.applicationDate;
     application.salaryExpectation = req.body.salaryExpectation ?? application.salaryExpectation;
-    application.resumeVersion = req.body.resumeVersion ?? application.resumeVersion;
     application.notes = req.body.notes ?? application.notes;
 
     const updatedApplication = await application.save();

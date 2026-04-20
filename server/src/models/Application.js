@@ -20,10 +20,6 @@ const applicationSchema = new mongoose.Schema(
     type: Number,
     min: [0, "Salary cannot be negative"]
   },
-    resumeVersion: {
-      type: String,
-      trim: true
-    },
     notes: {
       type: String,
       trim: true

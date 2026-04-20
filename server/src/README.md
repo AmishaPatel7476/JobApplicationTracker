@@ -4,7 +4,13 @@
 
 The Job Application Tracker API is a RESTful backend application developed using Node.js, Express.js, MongoDB, and Mongoose.
 
-The purpose of this application is to help users manage their job search process by tracking companies, job applications, and interviews in one place.
+Purpose of the Application
+
+The Job Application Tracker API is a RESTful backend application developed for IFN666 Assessment 02. The purpose of this application is to help users manage and organise their job search process in one place.
+
+Searching for jobs often involves applying to multiple companies, keeping track of application statuses, remembering interview dates, and storing notes about each opportunity. Without a structured system, it can become difficult to manage large numbers of applications and interviews.
+
+This application solves that problem by allowing users to create an account and securely log in to their own personalised dashboard. Once logged in, users can store information about companies they are interested in, create job applications linked to those companies, and record interviews related to specific applications.
 
 The application includes:
 
@@ -35,420 +41,293 @@ The application includes:
 
 ## Application Architecture
 
-The application follows a layered architecture pattern to keep the code organised and maintainable.
+The application follows a layered architecture:
 
-* Routes handle incoming API requests
-* Controllers contain the business logic
-* Models define the MongoDB schemas and relationships
-* Middleware handles authentication, error handling, and request validation
-* MongoDB Atlas is used as the database
+- `server.js` is the main entry point
+- `src/routes` contains API route definitions
+- `src/controllers` contains business logic
+- `src/models` contains Mongoose schemas and database models
+- `src/middleware` contains custom middleware for authentication, validation, error handling, and ownership protection
+- `src/config/db.js` handles MongoDB connection
 
 Folder structure:
 
 ```text
 server/
 │
-├── src/
-│   ├── config/
-│   │   └── db.js
-│   ├── controllers/
-│   │   ├── authController.js
-│   │   ├── companyController.js
-│   │   ├── applicationController.js
-│   │   └── interviewController.js
-│   ├── middleware/
-│   │   ├── authMiddleware.js
-│   │   └── errorMiddleware.js
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── Company.js
-│   │   ├── Application.js
-│   │   └── Interview.js
-│   ├── routes/
-│   │   ├── authRoutes.js
-│   │   ├── companyRoutes.js
-│   │   ├── applicationRoutes.js
-│   │   ├── interviewRoutes.js
-│   │   └── index.js
-│   └── server.js
-│
+<<<<<<< HEAD
 ├── API-collection.json
 ├── README.md
 ├── package.json
-└── .env
-```
+├── server.js
+│
+└── src/
+    ├── config/
+    │   └── db.js
+    │
+    ├── controllers/
+    │   ├── applicationController.js
+    │   ├── authController.js
+    │   ├── companyController.js
+    │   └── interviewController.js
+    │
+    ├── middleware/
+    │   ├── authMiddleware.js
+    │   ├── errorMiddleware.js
+    │   ├── ownershipMiddleware.js
+    │   └── validationMiddleware.js
+    │
+    ├── models/
+    │   ├── Application.js
+    │   ├── Company.js
+    │   ├── Interview.js
+    │   └── User.js
+    │
+    └── routes/
+        ├── applicationRoutes.js
+        ├── authRoutes.js
+        ├── companyRoutes.js
+        ├── interviewRoutes.js
+        └── index.js
 
----
+## Features
+
+## Core Features
+
+- User registration and login
+- JWT authentication
+- Protected routes
+- CRUD operations for companies
+- CRUD operations for applications
+- CRUD operations for interviews
+- Nested routes for applications inside companies
+- Nested routes for interviews inside applications
+- MongoDB relationships using Mongoose references
+
+## Additional Features Attempted
+- Authentication
+- Input validation
+- Search and sort
+- Pagination
+- Advanced middleware
+
+## Setup
+
+1. Install dependencies:
+   npm install
+
+Main dependencies:
+bcryptjs
+cors
+dotenv
+express
+jsonwebtoken
+mongoose
+nodemon
+
+2. Create `.env` file from example:
+   copy .env.example .env
+
+3. Update environment values in `.env`.
+
+## Environment Variables
+Create a .env file inside the server folder:
+
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+NODE_ENV=development
+
+4. Run in development:
+   npm run dev
+
+5. Run in production:
+   npm start
+
+## Deployment
+The application is designed to be deployed to the IFN666 web server using Caddy and PM2.
+
+Example API URL:
+https://jacaranda03.ifn666.com/assessment02/api
+
+Example PM2 command:
+pm2 start server.js --name assessment02-api
+
+Example Caddy configuration:
+
+jacaranda03.ifn666.com {
+    handle /assessment02/api/* {
+        reverse_proxy localhost:5000
+    }
+}
+
+## Data Model
+
+The application includes four Mongoose models:
+
+User
+- name
+- email
+- password
+
+Company
+- name
+- industry
+- location
+- website
+- notes
+- user reference
+
+Application
+- roleTitle
+- status
+- applicationDate
+- salaryExpectation
+- notes
+- company reference
+- user reference
+
+Interview
+- round
+- interviewDate
+- mode
+- outcome
+- notes
+- application reference
 
 ## Relationships
+- One user can have many companies
+- One user can have many applications
+- One company can have many applications
+- One application can have many interviews
 
-The project includes the following relationships:
+## API Endpoints
 
-* One User can create many Companies
-* One User can create many Applications
-* One Company can have many Applications
-* One Application belongs to one Company
-* One Application can have many Interviews
-* One Interview belongs to one Application
+## Authentication Endpoints
+POST   /api/auth/register
+POST   /api/auth/login
+GET    /api/auth/me
 
----
-
-## Installation Steps
-
-### 1. Clone the Repository
-
-```bash
-git clone <your-github-repository-link>
-cd Job_Application_Tracker/server
-```
-
-### 2. Install Dependencies
-
-```bash
-npm install
-```
-
-### 3. Create Environment Variables
-
-Create a `.env` file in the server folder.
-
-Example:
-
-```env
-PORT=5000
-MONGO_URI=mongodb://username:password@host/jobtrack?ssl=true&replicaSet=atlas-p1muu7-shard-0&authSource=admin&appName=Cluster0
-JWT_SECRET=your_super_secret_key
-```
-
----
-
-## Running the Project
-
-Start the server:
-
-```bash
-npm run dev
-```
-
-If successful, the terminal should display:
-
-```bash
-Server running on port 5000
-Database connected successfully
-```
-
----
-
-## Authentication Routes
-
-### Register User
-
-```http
-POST /api/auth/register
-```
-
-Request Body:
-
-```json
-{
-  "name": "Amisha",
-  "email": "amisha@example.com",
-  "password": "123456"
-}
-```
-
-### Login User
-
-```http
-POST /api/auth/login
-```
-
-Request Body:
-
-```json
-{
-  "email": "amisha@example.com",
-  "password": "123456"
-}
-```
-
-### Get Logged In User
-
-```http
-GET /api/auth/me
-```
-
-Header:
-
-```text
-Authorization: Bearer YOUR_TOKEN
-```
-
----
-
-## Company Routes
-
-### Create Company
-
-```http
-POST /api/companies
-```
-
-Request Body:
-
-```json
-{
-  "name": "Canva",
-  "industry": "Design Software",
-  "location": "Sydney",
-  "website": "https://www.canva.com",
-  "notes": "Strong frontend roles"
-}
-```
-
-### Get All Companies
-
-```http
-GET /api/companies
-```
-
-### Search Companies
-
-```http
-GET /api/companies?search=FinTech
-```
-
-### Sort Companies
-
-```http
-GET /api/companies?sort=alphabetical
-```
-
-### Paginate Companies
-
-```http
-GET /api/companies?page=1&limit=5
-```
-
-### Get Company By ID
-
-```http
-GET /api/companies/:id
-```
-
-### Update Company
-
-```http
-PUT /api/companies/:id
-```
-
-### Delete Company
-
-```http
+## Company Endpoints
+GET    /api/companies
+GET    /api/companies/:id
+POST   /api/companies
+PUT    /api/companies/:id
 DELETE /api/companies/:id
-```
 
----
+## Company Nested Routes
+GET    /api/companies/:companyId/applications
+POST   /api/companies/:companyId/applications
 
-## Application Routes
-
-### Create Application
-
-```http
-POST /api/applications
-```
-
-Request Body:
-
-```json
-{
-  "roleTitle": "Frontend Developer",
-  "status": "Applied",
-  "applicationDate": "2026-04-14",
-  "salaryExpectation": 85000,
-  "resumeVersion": "Resume V1",
-  "notes": "Applied through LinkedIn",
-  "company": "COMPANY_ID"
-}
-```
-
-### Nested Route Example
-
-```http
-POST /api/companies/:companyId/applications
-```
-
-### Get All Applications
-
-```http
-GET /api/applications
-```
-
-### Search Applications
-
-```http
-GET /api/applications?search=Frontend
-```
-
-### Filter Applications by Status
-
-```http
-GET /api/applications?status=Applied
-```
-
-### Sort Applications
-
-```http
-GET /api/applications?sort=salaryHigh
-```
-
-### Paginate Applications
-
-```http
-GET /api/applications?page=1&limit=5
-```
-
-### Get Application By ID
-
-```http
-GET /api/applications/:id
-```
-
-### Update Application
-
-```http
-PUT /api/applications/:id
-```
-
-### Delete Application
-
-```http
+## Application Endpoints
+GET    /api/applications
+GET    /api/applications/:id
+POST   /api/applications
+PUT    /api/applications/:id
 DELETE /api/applications/:id
-```
 
----
+## Application Nested Routes
+GET    /api/applications/:applicationId/interviews
 
-## Interview Routes
-
-### Create Interview
-
-```http
-POST /api/interviews
-```
-
-Request Body:
-
-```json
-{
-  "round": "Technical",
-  "interviewDate": "2026-04-20",
-  "mode": "Online",
-  "outcome": "Pending",
-  "notes": "First technical round",
-  "application": "APPLICATION_ID"
-}
-```
-
-### Get All Interviews
-
-```http
-GET /api/interviews
-```
-
-### Search Interviews
-
-```http
-GET /api/interviews?search=Technical
-```
-
-### Get Interview By ID
-
-```http
-GET /api/interviews/:id
-```
-
-### Update Interview
-
-```http
-PUT /api/interviews/:id
-```
-
-### Delete Interview
-
-```http
+## Interview Endpoints
+GET    /api/interviews
+GET    /api/interviews/:id
+POST   /api/interviews
+PUT    /api/interviews/:id
 DELETE /api/interviews/:id
-```
 
----
+## Authentication
+Authentication is implemented using JWT.
 
-## Features Implemented
+Users can:
+- Register
+- Login
+- Receive a JWT token
+- Access protected routes
 
-* JWT authentication
-* Protected routes
-* CRUD operations
-* Nested routes
-* MongoDB Atlas integration
-* Search functionality
-* Sorting functionality
-* Pagination functionality
-* Error handling middleware
-* Relationship mapping using Mongoose populate
+## Protected routes require the token to be included in the request header:
+Authorization: Bearer <token>
 
----
+## Input Validation
 
-## Middleware Used
+The API includes custom validation middleware for:
+- Required fields
+- Email format
+- Password length
+- Website URL format
+- Salary validation
+- Required interview fields
 
-The application uses the following middleware:
+Examples:
+Password must be at least 6 characters
+Salary cannot be negative
+Website URLs must begin with http:// or https://
 
-* `authMiddleware.js` to protect routes and verify JWT tokens
-* `errorMiddleware.js` to standardise error responses
-* Express built-in JSON middleware to parse incoming request bodies
+## Search and Sort
+Search and sort are implemented on the "get all" endpoints.
 
----
+## Company Search and Sort
+- Search by name, industry, location
+- Sort by newest
+- Sort by oldest
+- Sort alphabetically ascending
+- Sort alphabetically descending
 
-## API Testing
+## Application Search and Sort
+- Search by role title, status, resume version, notes
+- Filter by status
+- Sort by newest
+- Sort by oldest
+- Sort by salary high to low
+- Sort by salary low to high
 
-The API was tested using Hoppscotch.
+## Interview Search and Sort
+- Search by round and outcome
+- Sort by newest
+- Sort by oldest
 
-Recommended testing order:
+##Pagination
+Pagination is implemented on all "get all" routes.
 
-1. Register user
-2. Login user
-3. Copy token
-4. Create company
-5. Create application
-6. Create interview
-7. Test search, sorting, and pagination
-8. Test update and delete routes
+## Pagination includes:
+- page query parameter
+- limit query parameter
+- HTTP response headers:
+- X-Total-Count
+- X-Total-Pages
+- X-Current-Page
+- Link
 
----
+The Link header provides navigation links for:
+First page
+Previous page
+Next page
+Last page
 
-## Contributing
+## Middleware
+The application uses several middleware components:
 
-Contributions are welcome.
+1. Authentication middleware
+- Verifies JWT tokens
+- Protects private routes
 
-To contribute:
+2. Validation middleware
+- Validates request body data
+- Prevents invalid inputs
 
-1. Fork the repository
-2. Create a new branch
-3. Make your changes
-4. Test the application
-5. Submit a pull request
+3. Ownership middleware
+- Ensures users can only access their own resources
 
----
+4. Error middleware
+- Handles application errors consistently
+- Returns proper status codes and messages
 
-## Reporting Issues
+## Notes
 
-If you find a bug or issue:
-
-1. Check if the issue already exists
-2. Provide clear steps to reproduce the problem
-3. Include screenshots or error messages if possible
-4. Describe the expected and actual behaviour
-
----
-
-## Author
-
-Amisha Patel
-IFN666 Assignment Project
+- JWT is required for protected routes.
+- Users can only access their own data.
+- Search, sort, and pagination are supported.
+- Validation prevents invalid input.
+- Error handling returns proper status codes.
+- MongoDB and Mongoose are used for the database.
+- CORS is enabled for frontend integration.

@@ -15,7 +15,7 @@ import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "./index.css";
 
-// ✅ Persist theme in localStorage
+// Persist theme in localStorage
 const colorSchemeManager = localStorageColorSchemeManager({
   key: "mantine-color-scheme"
 });

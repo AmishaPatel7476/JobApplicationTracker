@@ -80,7 +80,6 @@ function Dashboard() {
         <Text c="dimmed">Welcome back, {user?.name}</Text>
       </div>
 
-      {/* STATS */}
       <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }}>
         {stats.map((stat) => (
           <Paper key={stat.label} p="md" radius="md" withBorder shadow="sm">
@@ -95,7 +94,6 @@ function Dashboard() {
         ))}
       </SimpleGrid>
 
-      {/* QUICK ACTIONS */}
       <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }}>
         <Paper p="lg" withBorder onClick={() => navigate("/applications")} style={{ cursor: "pointer" }}>
           <Group>
@@ -119,7 +117,6 @@ function Dashboard() {
         </Paper>
       </SimpleGrid>
 
-      {/* RECENT */}
       <Paper withBorder p="md">
         <Title order={4} mb="sm">Latest Applications</Title>
 

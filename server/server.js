@@ -10,7 +10,7 @@ connectDB();
 
 const app = express();
 
-// ===== MIDDLEWARE =====
+// middleware
 app.use(cors());
 app.use(express.json());
 
@@ -23,18 +23,18 @@ app.use((req, res, next) => {
   next();
 });
 
-// ===== ROUTES =====
+// routes
 app.get("/", (req, res) => {
   res.json({ message: "API running" });
 });
 
 app.use("/api", routes);
 
-// ===== GLOBAL ERROR HANDLER (LAST) =====
+// error handling middleware
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(` Server running on port ${PORT}`);
 });

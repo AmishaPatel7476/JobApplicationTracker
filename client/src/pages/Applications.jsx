@@ -35,7 +35,6 @@ function Applications() {
     status: "Applied",
     applicationDate: "",
     salaryExpectation: "",
-    resumeVersion: "",
     notes: "",
     company: ""
   });
@@ -48,7 +47,7 @@ function Applications() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // ================= FETCH =================
+  // fetch
 
   const fetchApplications = async () => {
     try {
@@ -103,7 +102,7 @@ function Applications() {
     fetchCompanies();
   }, []);
 
-  // ================= HANDLERS =================
+  // handlers
 
   const handleChange = (e) => {
     setErrors({});
@@ -122,7 +121,6 @@ function Applications() {
       status: app.status || "Applied",
       applicationDate: app.applicationDate?.split("T")[0] || "",
       salaryExpectation: app.salaryExpectation || "",
-      resumeVersion: app.resumeVersion || "",
       notes: app.notes || "",
       company: app.company?._id || ""
     });
@@ -136,7 +134,6 @@ function Applications() {
       status: "Applied",
       applicationDate: "",
       salaryExpectation: "",
-      resumeVersion: "",
       notes: "",
       company: ""
     });
@@ -244,7 +241,7 @@ function Applications() {
     }
   };
 
-  // ================= UI =================
+  // user interface
 
   return (
     <Stack>
@@ -260,7 +257,7 @@ function Applications() {
         </Button>
       </Group>
 
-      {/* SEARCH + SORT */}
+      {/* Search + Sort */}
       <Group grow>
         <TextInput
           placeholder="Search..."
@@ -278,7 +275,7 @@ function Applications() {
         />
       </Group>
 
-      {/* TABLE */}
+      {/* Table */}
       <Paper withBorder radius="md">
         <Table.ScrollContainer minWidth={800}>
           <Table highlightOnHover verticalSpacing={isMobile ? "xs" : "sm"}>
@@ -355,7 +352,7 @@ function Applications() {
 
       <Pagination value={page} onChange={setPage} total={totalPages} />
 
-      {/* MODAL */}
+      {/* Modal */}
       <Modal opened={opened} onClose={() => setOpened(false)} title="Application">
         <form onSubmit={handleSubmit}>
           <Stack>
