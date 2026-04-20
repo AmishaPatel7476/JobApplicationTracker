@@ -1,0 +1,8 @@
+jacaranda03.ifn666.com {
+    root * /var/www/jobtracker/client/dist
+    file_server
+
+    handle_path /assessment02/api/* {
+        reverse_proxy localhost:5000
+    }
+}
