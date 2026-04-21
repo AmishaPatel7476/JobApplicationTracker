@@ -1,8 +1,18 @@
 jacaranda03.ifn666.com {
-    root * /var/www/jobtracker/client/dist
-    file_server
 
-    handle_path /assessment02/api/* {
+    handle /assessment02/api/* {
+        uri strip_prefix /assessment02
         reverse_proxy localhost:5000
+    }
+
+    handle /assessment02/* {
+        uri strip_prefix /assessment02
+        root * /var/www/assessment02
+        try_files {path} /index.html
+        file_server
+    }
+
+    handle {
+        respond "IFN666 server is working"
     }
 }
